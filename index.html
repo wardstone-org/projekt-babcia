@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SeniorPhone — pobierz aplikację</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #111111;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        main {
+            width: 100%;
+            max-width: 480px;
+            padding: 32px 24px;
+            text-align: center;
+            background: #202020;
+            border-radius: 24px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            background: #000000;
+            font-size: 56px;
+            font-weight: bold;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            font-size: 32px;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #dddddd;
+        }
+
+        .download {
+            display: block;
+            margin: 24px 0;
+            padding: 18px;
+            border-radius: 14px;
+            background: #238544;
+            color: #ffffff;
+            font-size: 21px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .download:hover {
+            background: #2b9a50;
+        }
+
+        .download:focus-visible {
+            outline: 3px solid white;
+            outline-offset: 4px;
+        }
+
+        #qr {
+            display: block;
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+            margin: 20px auto;
+            background: white;
+        }
+
+        .hint {
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="logo" aria-hidden="true">S</div>
+
+        <h1>SeniorPhone</h1>
+        <p>Prosty telefon dla seniora.</p>
+
+        <a id="download" class="download">
+            Pobierz aplikację na Androida
+        </a>
+
+        <p>Zeskanuj kod telefonem, aby pobrać aplikację.</p>
+
+        <img
+            id="qr"
+            width="280"
+            height="280"
+            alt="Kod QR do pobrania aplikacji SeniorPhone"
+        >
+
+        <p id="qr-error" hidden>
+            Kod QR jest chwilowo niedostępny.
+            Użyj przycisku pobierania.
+        </p>
+
+        <p class="hint">
+            Po pobraniu otwórz plik seniorphone.apk.
+            Jeśli Android poprosi, zezwól tej przeglądarce
+            na instalowanie aplikacji.
+        </p>
+
+        <p class="hint">
+            Aktualizacja: pobierz nową wersję i zainstaluj ją
+            na istniejącą aplikację.
+        </p>
+    </main>
+
+    <script>
+        // ZAMIEŃ TWOJ_LOGIN NA SWÓJ LOGIN GITHUB.
+        const githubLogin = "wardstone-org";
+
+        const downloadUrl =
+            `https://github.com/${githubLogin}/seniorphone/releases/latest/download/seniorphone.apk`;
+
+        document.getElementById("download").href = downloadUrl;
+
+        const qrUrl = new URL(
+            "https://api.qrserver.com/v1/create-qr-code/"
+        );
+
+        qrUrl.searchParams.set("size", "280x280");
+        qrUrl.searchParams.set("data", downloadUrl);
+        qrUrl.searchParams.set("qzone", "4");
+
+        const qrImage = document.getElementById("qr");
+
+        qrImage.onerror = function () {
+            qrImage.hidden = true;
+            qrImage.style.display = "none";
+            document.getElementById("qr-error").hidden = false;
+        };
+
+        qrImage.src = qrUrl.toString();
+    </script>
+</body>
+</html>
